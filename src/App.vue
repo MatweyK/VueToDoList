@@ -11,11 +11,46 @@
     import TaskGrid from "./components/TaskGrid";
     import NewTask from  "./components/NewTask";
     import ProgressBar from "./components/ProgressBar";
+
+    // localStorage.clear();
+    const presetValues = [{
+            "name": "Wake up at 5am",
+            "taskFinished": true },
+        {
+            "name": "Learn how to use Vue.js",
+            "taskFinished": false },
+        {
+            "name": "Drink coffee",
+            "taskFinished": false }];
+
+    // Use localStorage
+    const STORAGE_KEY = "todo-app";
+    const tasksStorage = {
+        fetch: function () {
+            let tasks = JSON.parse(localStorage.getItem(STORAGE_KEY)) || presetValues;
+            tasks.forEach(function (task, index) {
+                task.id = index;
+            });
+            tasksStorage.uid = tasks.length;
+            return tasks;
+        },
+        save: function (tasks) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+        } };
+
     export default {
         data() {
             return {
-                tasks: [{name: 'test task', taskFinished: false}],
+                tasks: tasksStorage.fetch(),
                 maxTasks: 50,
+            }
+        },
+        watch: {
+            tasks: {
+                handler: function (tasks) {
+                    tasksStorage.save(tasks);
+                },
+                deep: true
             }
         },
         components: {
