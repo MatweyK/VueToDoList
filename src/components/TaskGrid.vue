@@ -1,6 +1,8 @@
 <template>
     <div class="row">
-        <app-task v-for="(task, index) in tasks" @deleteCurrentTask="gridTaskDeleted(index)" @finishCurrentTask="gridTaskFinished(index)" :class="{ 'finished': task.taskFinished }">{{ task.name }}</app-task>
+        <app-task v-for="(task, index) in tasks" @deleteCurrentTask="gridTaskDeleted(index)" @finishCurrentTask="gridTaskFinished(index)" :class="{ 'finished': task.taskFinished }">{{index +1}}. {{ task.name }}
+            <div><button class="btn btn-primary" v-if="task.taskFinished" @click="unfinishCurrentTask(index)">Undone</button></div>
+        </app-task>
     </div>
 </template>
 
@@ -17,14 +19,16 @@
             },
             gridTaskFinished(index){
                 this.$emit('gridTaskFinished', index);
+            },
+            unfinishCurrentTask(index){
+                this.$emit('gridTaskUnfinished', index);
             }
         }
     }
 </script>
 
 <style scoped>
-    .finished {
-        text-decoration: line-through;
+    .row {
+        align-items: center;
     }
-
 </style>

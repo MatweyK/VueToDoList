@@ -1,16 +1,13 @@
 <template>
     <div class="row">
-        <div class="col-sm-8 col-sm-offset-2 col-xs-12 col-md-6 col-md-offset-3 form-group">
-            <form>
-                <label>Add Task</label>
-                <input type="text" class="form-control" v-model="task">
+        <div class="col-12 addTaskFrom">
+            <form action="" @submit="createNew">
+                <label class="col-form-label">Add new Task</label>
+                <input type="text" class="form-control-sm" v-model="task">
             </form>
-
+            <button class="btn btn-primary addTask" @click="createNew" >Add Task</button>
         </div>
-        <div class="col-sm-8 col-sm-offset-2 col-xs-12 col-md-6 col-md-offset-3 form-group">
-           <button class="btn btn-primary" @click.prevent="createNew">Add Task</button>
 
-        </div>
     </div>
 </template>
 
@@ -23,7 +20,8 @@
             };
         },
         methods: {
-            createNew(){
+            createNew(event){
+                event.preventDefault();
                 this.$emit('taskAdded', this.task);
                 this.task = '';
             }
@@ -32,8 +30,17 @@
 </script>
 
 <style scoped>
-    .form-control {
+    .col-form-label {
+        display: block;
+    }
+    .form-control-sm {
         height: 50px;
         font-size: 24px;
+    }
+    .addTaskFrom {
+        text-align: center;
+    }
+    .addTask {
+        margin: 20px 0;
     }
 </style>
